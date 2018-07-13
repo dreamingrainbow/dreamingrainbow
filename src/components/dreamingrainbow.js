@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
-
+import './style.css';
 class DreamingRainbow extends Component {
   constructor(props){
     super(props);
     this.colorArray = ["Red","Orange","Yellow","Green","Blue","Purple"];
     this.colorString = { "color" : this.colorArray[0] };
+    this.timerEvent = setInterval(this.forceUpdate.bind(this), 9000);
+    this.state = {
+      seconds : 0
+    }
   }
 
   setColor(i) {
@@ -38,16 +42,30 @@ class DreamingRainbow extends Component {
     return sections;
   }
 
-  componentWillMount() {
-    
+  tick() {
+    this.setState(prevState => ({
+      seconds: prevState.seconds + 1
+    }));
+  }
+
+  componentDidMount() {
+    this.interval = setInterval(() => this.tick(), 9000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   render() {
-    //Initial Render Rainbow Text and Blackbackground
-    return(<div style={this.colorString}>{this.splitByLetters(this.props.phrase).map((section, i) => {
-      this.setColor(i);
-      return <span style={this.colorString} key={i}>{section}</span>
-    })}</div>)
+    const items = this.splitByLetters(this.props.phrase).map((section, i) => {
+      this.setColor(i);      
+      const myStyle = {animationName: 'fadeInOut',
+        animationDelay:`${.5 + i}s`,
+        animationDuration:`${1.5}s`};
+      return <span style={Object.assign(this.colorString, myStyle)}  key={`section_${i}_${this.state.seconds}`}>
+        {section}</span>
+    });        
+    return(items);
   }
 }
 

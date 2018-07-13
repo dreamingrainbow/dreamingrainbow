@@ -1,0 +1,28 @@
+.run-animation{
+    animation: 'fadeInOut';
+} 
+@keyframes fadeInOut {
+    0% {
+      opacity: 0;
+    }
+    25% {
+      opacity: .2;
+    }
+    45% {
+      opacity: .4;
+    }
+    50% {
+        opacity: .5
+    }
+    65% {
+        opacity: .6
+    }
+
+    85% {
+        opacity: .8      
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+    
